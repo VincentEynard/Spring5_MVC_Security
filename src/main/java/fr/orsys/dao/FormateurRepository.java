@@ -1,0 +1,12 @@
+package fr.orsys.dao;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import fr.orsys.entities.Formateur;
+
+public interface FormateurRepository extends JpaRepository<Formateur, Long>{
+
+	boolean existsByNomAndPrenom(String nom, String prenom);
+
+
+}

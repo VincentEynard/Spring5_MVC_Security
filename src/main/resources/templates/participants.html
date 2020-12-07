@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{template}">
+
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+	integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+	crossorigin="anonymous">
+<link
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+	rel="stylesheet" type="text/css" />
+
+<title>Participants</title>
+</head>
+
+<body>
+	<div layout:fragment="contents">
+		<div class="row mt-2 ml-1 mr-1">
+			<div class="col-2"></div>
+			<div class="col-8">
+				<div class="card  border-info">
+					<div class="card-header badge badge-info text-wrap">
+						<h6>Liste des participants</h6>
+					</div>
+
+					<div class="card-body">
+
+						<div class="row">
+							<div class="col-6">
+								<div class="text-right" sec:authorize="hasRole('ADMIN')">
+									<a class="btn btn-sm btn-success center"
+										th:href="@{/admin/ajouterparticipant}"> <i
+										class="fas fa-plus-circle"></i> Ajouter Participant
+									</a>
+								</div>
+							</div>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-striped  table-borderless">
+									<tr>
+										<th>#</th>
+										<th>Nom</th>
+										<th>Prénom</th>
+										<th>Age</th>
+										<th></th>
+										<th></th>
+									</tr>
+									<tr th:each="p:${listeParticipants}">
+										<td width="2%" th:text="${p.id}"></td>
+										<td width="45%" th:text="${p.nom}"></td>
+										<td width="45%" th:text="${p.prenom}"></td>
+										<td width="8%" th:text="${p.age}"></td>
+										<td width="5%"><a class="btn btn-sm btn-primary" sec:authorize="hasRole('ADMIN')"
+											th:href="@{/admin/modifierparticipant(id=${p.id})}"> <i
+												class="fas fa-edit"></i>
+										</a></td>
+										<td width="5%"><a class="btn btn-sm btn-danger" sec:authorize="hasRole('ADMIN')"
+											onclick="return confirm('Etes-vous sûr de vouloir supprimer ce participant?');"
+											th:href="@{/admin/supprimerparticipant(id=${p.id})}"> <i
+												class="fas fa-trash-alt"></i>
+										</a></td>
+									</tr>
+								</table>
+								<nav aria-label="Page navigation">
+									<ul class="pagination">
+										<li
+											th:class="${P==activePage} ? 'page-item active':'page-item'"
+											th:each="P:${taillePagination}"><a class="page-link"
+											th:href="@{/user/participants(page=${P}, size=${size})}"
+											th:text="${P+1}"> </a></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-2"></div>
+		</div>
+	</div>
+</body>
+
+</html>
